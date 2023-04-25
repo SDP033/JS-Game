@@ -1,4 +1,4 @@
-# Arkanoid sencillo
+# Arkanoid (Rompebloques)
 
 Este es un Arkanoid sencillo desarrollado mediante JavaScript. El objetivo del juego es eliminar todos los bloques de la pantalla con una pelota y una paleta.
 Esta pequeña descripción estará bajo actualización con el fin de cumplir todas las demandas propuestas en la rubrica.
