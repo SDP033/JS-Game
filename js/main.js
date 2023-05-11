@@ -8,14 +8,30 @@ var radio = 10;
 
 var raquetaw=100;
 var raquetah=25;
-var raquetax= (canvas.width / 2)-(raquetaw/2);
-var raquetay=canvas.height-25;
+var raquetax= (canvas.width / 2)-(raquetaw/2);  // Variables raqueta
+var raquetay= canvas.height-25;
 
-var movx= 2;
-var movy=-2;
+var movx= 2;    // px que se movera la bola en eje x
+var movy=-2;    // px que se movera la bola en eje y
+
+var columnas= 10;
+var filas=4;
+var brickw= 50;
+var brickh= 30;              // Variables para los ladrillos
+var brickpadding= 7;
+var paddingarriba = 30;
+var paddingizquierda = 140;
+
+var bricks= [];                                                   // Esta estructura es para guardar los bloques en un array
+for (let i=0; i<columnas; i++){
+    bricks[i]= [];
+    for(let j=0; j<filas; j++){
+        bricks[i][j]= {x:0, y:0, ladrillo:false};
+    }
+}  
 
 var derecha= false;
-var izquierda=false;
+var izquierda=false;     
 
 document.addEventListener("keydown",pulsar,false);     // eventListeners que captan izda o derecha
 document.addEventListener("keyup",soltar,false);
@@ -42,6 +58,26 @@ function soltar(e){       // funcion para cuando soltamos
 
 }
 
+function ladrillo(){           // funcion para pintar los ladrillos
+    for (let i=0; i<columnas; i++){
+        for(let j=0; j<=filas; j++){
+
+            var brickx= paddingizquierda +(i* (brickw+ brickpadding));            // Con esto evitamos que pinte un ladrillo encima de otro
+            var bricky= paddingarriba +(j* (brickh+ brickpadding));
+
+            contexto.beginPath();                           
+            contexto.lineWidth = 5; 
+            contexto.strokeStyle = "#212121";
+            contexto.fillStyle = "yellow";
+            contexto.rect(brickx, bricky, brickw, brickh);
+            contexto.stroke();
+            contexto.fill();
+            contexto.closePath();
+
+        }
+    }  
+}
+
 function pelota(){
 contexto.beginPath();                    // Aqui pintamos un pelota
 contexto.lineWidth = 5; 
@@ -66,10 +102,11 @@ function raqueta(){
 
 }
 
-function pinta() {
+function pinta(){
     contexto.clearRect(0, 0, canvas.width, canvas.height);   // Sirve para limpiar el canvas para que pinte las cosas
     raqueta();
     pelota();
+    ladrillo();
 
     if (x + movx > canvas.width - radio || x + movx < radio) {  // delimitando el rebote de la pelota y de la raqueta al canvas
         movx = -movx;
@@ -100,16 +137,3 @@ function pinta() {
 }
 
 setInterval(pinta, 10);  // Aqui pintamos cada 10 ms todos los elementos que metamos en la funcion pinta
-
-
-
-/*
-
-contexto.beginPath();                  // Aqui pintamos un brick
-contexto.lineWidth = 5; // en lugar de "border"
-contexto.strokeStyle = "#212121";
-contexto.fillStyle = "yellow";
-contexto.rect(5, 5, 50, 25);
-contexto.stroke();
-contexto.fill();
-contexto.closePath();*/
