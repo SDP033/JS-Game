@@ -22,6 +22,8 @@ var brickpadding= 10;
 var paddingarriba = 30;
 var paddingizquierda = 140;
 
+var marcador=0;
+
 var bricks= [];                                                   // Esta estructura es para guardar los bloques en un array
 for (let i=0; i<columnas; i++){
     bricks[i]= [];
@@ -97,13 +99,25 @@ function romper() {                                    // Metodo para romper los
 
         if (x + radio > ladrillox && x - radio < ladrillox + brickw && y + radio > ladrilloy && y - radio < ladrilloy + brickh) {
 
-            movy = -movy;
+            movy = -movy;                                   
             ladrillo.pintoladrillo = false;
+            marcador ++;
 
+        if(marcador == columnas*filas){
+            alert("HAS GANADO");
+        }
                     }
                 }
             }
         }
+    }
+
+    function marcadore(){
+        contexto.lineWidth = 5; 
+        contexto.font= "25px sans-serif ";
+        contexto.fillStyle = "red";
+        contexto.fillText("Score: " + marcador, 10, 50);
+        contexto.closePath();
     }
 
 
@@ -137,6 +151,7 @@ function pinta(){
     pelota();
     ladrillo();
     romper();
+    marcadore();
 
     if (x + movx > canvas.width - radio || x + movx < radio) {  // delimitando el rebote de la pelota y de la raqueta al canvas
         movx = -movx;
