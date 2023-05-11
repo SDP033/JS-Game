@@ -14,7 +14,7 @@ var raquetay= canvas.height-25;
 var movx= 2;    // px que se movera la bola en eje x
 var movy=-2;    // px que se movera la bola en eje y
 
-var columnas= 10;
+var columnas= 9;
 var filas=4;
 var brickw= 50;
 var brickh= 30;              // Variables para los ladrillos
@@ -23,6 +23,7 @@ var paddingarriba = 30;
 var paddingizquierda = 140;
 
 var marcador=0;
+var vidas=3;
 
 var bricks= [];                                                   // Esta estructura es para guardar los bloques en un array
 for (let i=0; i<columnas; i++){
@@ -112,11 +113,19 @@ function romper() {                                    // Metodo para romper los
         }
     }
 
-    function marcadore(){
+    function marcadore(){          // Añadimos el marcador
         contexto.lineWidth = 5; 
         contexto.font= "25px sans-serif ";
         contexto.fillStyle = "red";
         contexto.fillText("Score: " + marcador, 10, 50);
+        contexto.closePath();
+    }
+
+    function vida(){          // Añadimos el marcador
+        contexto.lineWidth = 5; 
+        contexto.font= "25px sans-serif ";
+        contexto.fillStyle = "red";
+        contexto.fillText("Vidas: " + vidas, canvas.width-100, 50);
         contexto.closePath();
     }
 
@@ -152,6 +161,7 @@ function pinta(){
     ladrillo();
     romper();
     marcadore();
+    vida();
 
     if (x + movx > canvas.width - radio || x + movx < radio) {  // delimitando el rebote de la pelota y de la raqueta al canvas
         movx = -movx;
@@ -163,8 +173,16 @@ function pinta(){
             if (x > raquetax && x < raquetax + raquetaw) {
                 movy = -movy;
             } else { 
-                if(y + movy > canvas.height - radio){                      
+                if(y + movy > canvas.height - radio){   
+                    vidas--;
+                    if(vidas < 1) {                   
                 alert("HAS PERDIDO");
+                }else{ 
+                    x = canvas.width / 2; 
+                    y = canvas.height - 50;
+                    movx= 2;    
+                    movy=-2;
+                    }
                 }
             }
         }
