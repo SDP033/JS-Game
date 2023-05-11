@@ -18,7 +18,7 @@ var columnas= 10;
 var filas=4;
 var brickw= 50;
 var brickh= 30;              // Variables para los ladrillos
-var brickpadding= 7;
+var brickpadding= 10;
 var paddingarriba = 30;
 var paddingizquierda = 140;
 
@@ -26,7 +26,7 @@ var bricks= [];                                                   // Esta estruc
 for (let i=0; i<columnas; i++){
     bricks[i]= [];
     for(let j=0; j<filas; j++){
-        bricks[i][j]= {x:0, y:0, ladrillo:false};
+        bricks[i][j]= {x:0, y:0, pintoladrillo: true};
     }
 }  
 
@@ -60,10 +60,15 @@ function soltar(e){       // funcion para cuando soltamos
 
 function ladrillo(){           // funcion para pintar los ladrillos
     for (let i=0; i<columnas; i++){
-        for(let j=0; j<=filas; j++){
+        for(let j=0; j<filas; j++){
+            
+            if(bricks[i][j].pintoladrillo == true){
 
-            var brickx= paddingizquierda +(i* (brickw+ brickpadding));            // Con esto evitamos que pinte un ladrillo encima de otro
-            var bricky= paddingarriba +(j* (brickh+ brickpadding));
+            var brickx= (i* (brickw+ brickpadding))+paddingizquierda;            // Con esto evitamos que pinte un ladrillo encima de otro
+            var bricky= (j* (brickh+ brickpadding))+paddingarriba;
+
+            bricks[i][j].x= brickx;                 // Aquii actualizamos el valor de x e y de cada ladrillo para usarlos en romper()
+            bricks[i][j].y= bricky;
 
             contexto.beginPath();                           
             contexto.lineWidth = 5; 
@@ -73,10 +78,34 @@ function ladrillo(){           // funcion para pintar los ladrillos
             contexto.stroke();
             contexto.fill();
             contexto.closePath();
+            
+            }
 
         }
     }  
 }
+function romper() {                                    // Metodo para romper los ladrillos
+    for (let i = 0; i < columnas; i++) {
+        for (let j = 0; j < filas; j++) {
+
+        let ladrillo = bricks[i][j];                // Actualiza valor para x e y
+
+        if (ladrillo.pintoladrillo) {
+
+            let ladrillox = ladrillo.x;
+            let ladrilloy = ladrillo.y;
+
+        if (x + radio > ladrillox && x - radio < ladrillox + brickw && y + radio > ladrilloy && y - radio < ladrilloy + brickh) {
+
+            movy = -movy;
+            ladrillo.pintoladrillo = false;
+
+                    }
+                }
+            }
+        }
+    }
+
 
 function pelota(){
 contexto.beginPath();                    // Aqui pintamos un pelota
@@ -107,6 +136,7 @@ function pinta(){
     raqueta();
     pelota();
     ladrillo();
+    romper();
 
     if (x + movx > canvas.width - radio || x + movx < radio) {  // delimitando el rebote de la pelota y de la raqueta al canvas
         movx = -movx;
