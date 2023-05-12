@@ -6,7 +6,7 @@ var y = canvas.height - 50;      // Variables pelota
 var radio = 10;
 
 
-var raquetaw=100;
+var raquetaw=90;
 var raquetah=25;
 var raquetax= (canvas.width / 2)-(raquetaw/2);  // Variables raqueta
 var raquetay= canvas.height-25;
@@ -15,7 +15,7 @@ var movx= 2;    // px que se movera la bola en eje x
 var movy=-2;    // px que se movera la bola en eje y
 
 var columnas= 9;
-var filas=4;
+var filas=6;
 var brickw= 50;
 var brickh= 30;              // Variables para los ladrillos
 var brickpadding= 10;
@@ -23,7 +23,8 @@ var paddingarriba = 30;
 var paddingizquierda = 140;
 
 var marcador=0;
-var vidas=3;
+var vidas=1;
+var pausa = false;
 
 var bricks= [];                                                   // Esta estructura es para guardar los bloques en un array
 for (let i=0; i<columnas; i++){
@@ -34,11 +35,27 @@ for (let i=0; i<columnas; i++){
 }  
 
 var derecha= false;
-var izquierda=false;     
+var izquierda=false;
 
 document.addEventListener("keydown",pulsar,false);     // eventListeners que captan izda o derecha
 document.addEventListener("keyup",soltar,false);
 
+
+
+let fondoVerde = false;
+
+document.addEventListener('keydown', function(evento) {   // Funcion cambiar de color el fondo
+    if(evento.code === 'Space'){
+        evento.stopPropagation();
+        if(fondoVerde) {
+            canvas.style.backgroundColor = 'white';
+            fondoVerde = false;
+        } else {
+            canvas.style.backgroundColor = 'green';
+            fondoVerde = true;
+        }
+    }
+});
 
 function pulsar(e){         // funcion para cuando pulsamos 
     if(e.keyCode == 37){
@@ -61,32 +78,44 @@ function soltar(e){       // funcion para cuando soltamos
 
 }
 
-function ladrillo(){           // funcion para pintar los ladrillos
-    for (let i=0; i<columnas; i++){
-        for(let j=0; j<filas; j++){
-            
-            if(bricks[i][j].pintoladrillo == true){
-
-            var brickx= (i* (brickw+ brickpadding))+paddingizquierda;            // Con esto evitamos que pinte un ladrillo encima de otro
-            var bricky= (j* (brickh+ brickpadding))+paddingarriba;
-
-            bricks[i][j].x= brickx;                 // Aquii actualizamos el valor de x e y de cada ladrillo para usarlos en romper()
-            bricks[i][j].y= bricky;
-
-            contexto.beginPath();                           
-            contexto.lineWidth = 5; 
+function ladrillo() {           // función para pintar los ladrillos
+    return new Promise((resolve, reject) => {
+      for (let i = 0; i < columnas; i++) {
+        for (let j = 0; j < filas; j++) {
+          if (bricks[i][j].pintoladrillo == true) {
+            var brickx = (i * (brickw + brickpadding)) + paddingizquierda;            // Con esto evitamos que pinte un ladrillo encima de otro
+            var bricky = (j * (brickh + brickpadding)) + paddingarriba;
+  
+            bricks[i][j].x = brickx;                 // Aquii actualizamos el valor de x e y de cada ladrillo para usarlos en romper()
+            bricks[i][j].y = bricky;
+  
+            contexto.beginPath();
+            contexto.lineWidth = 5;
             contexto.strokeStyle = "#212121";
             contexto.fillStyle = "yellow";
             contexto.rect(brickx, bricky, brickw, brickh);
             contexto.stroke();
             contexto.fill();
             contexto.closePath();
-            
-            }
-
+          }
         }
-    }  
-}
+      }
+      if (bricks.length > 0) {
+        resolve("Los ladrillos han sido pintados exitosamente.");
+      } else {
+        reject("No se encontraron ladrillos para pintar.");
+      }
+    });
+  }
+  
+  ladrillo()
+    .then((result) => {
+      console.log(result);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
 function romper() {                                    // Metodo para romper los ladrillos
     for (let i = 0; i < columnas; i++) {
         for (let j = 0; j < filas; j++) {
@@ -105,7 +134,7 @@ function romper() {                                    // Metodo para romper los
             marcador ++;
 
         if(marcador == columnas*filas){
-            alert("HAS GANADO");
+            alert("HAS GANADO"+ " Tu puntiacion ha sido: " + marcador);
         }
                     }
                 }
@@ -129,18 +158,19 @@ function romper() {                                    // Metodo para romper los
         contexto.closePath();
     }
 
-
-function pelota(){
-contexto.beginPath();                    // Aqui pintamos un pelota
-contexto.lineWidth = 5; 
-contexto.strokeStyle = "#212121";
-contexto.arc(x, y, radio, 0, 2 * Math.PI);
-contexto.fillStyle = "blue";
-contexto.stroke();
-contexto.fill();
-contexto.closePath();
-
-}
+    function pelota(){
+        if (pausa) {
+            return;
+        }
+        contexto.beginPath();                    // Aqui pintamos un pelota
+        contexto.lineWidth = 5; 
+        contexto.strokeStyle = "#212121";
+        contexto.arc(x, y, radio, 0, 2 * Math.PI);
+        contexto.fillStyle = "blue";
+        contexto.stroke();
+        contexto.fill();
+        contexto.closePath();
+    }
 
 function raqueta(){
     contexto.beginPath();                   // Aqui pintamos la raqueta
@@ -176,7 +206,7 @@ function pinta(){
                 if(y + movy > canvas.height - radio){   
                     vidas--;
                     if(vidas < 1) {                   
-                alert("HAS PERDIDO");
+                alert("HAS PERDIDO" + "Tu puntiacion ha sido: " + marcador);
                 }else{ 
                     x = canvas.width / 2; 
                     y = canvas.height - 50;
@@ -199,4 +229,5 @@ function pinta(){
     y += movy;
 }
 
-setInterval(pinta, 10);  // Aqui pintamos cada 10 ms todos los elementos que metamos en la funcion pinta
+setInterval(pinta, 3);  // Aqui pintamos cada 10 ms todos los elementos que metamos en la funcion pinta
+clearInterval(pinta);
