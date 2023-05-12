@@ -5,17 +5,17 @@ Esta pequeña descripción estará bajo actualización con el fin de cumplir tod
 
 * Instalación
 
-No es necesaria ninguna instalación adicional. Solo necesitas descargar o clonar el repositorio y abrir el archivo index.html en tu navegador.
+No es necesaria ninguna instalación adicional. Solo necesitas descargar o clonar el repositorio y abrir el archivo main.html en tu navegador.
 
 * Uso
 
-Abre el archivo index.html en tu navegador y comienza a jugar. Puedes mover la paleta a la izquierda y a la derecha usando las teclas de flecha izquierda y derecha del teclado.
+Abre el archivo main.html en tu navegador, donde podrás leer las instrucciones del juego y selecciona la dificultad que desees. Puedes mover la paleta a la izquierda y a la derecha usando las teclas de flecha izquierda y derecha del teclado. Además de la opción de cambiar el fondo de color pulsando la barra espaciadora.
 
 * Características
 
  Pelota rebotando y destruyendo bloques.
  Paleta moviéndose con las teclas de flecha izquierda y derecha del teclado.
- Bloques de diferentes colores y puntos.
- Reinicio automático del nivel cuando se pierde o se completa.
+ Reinicio automático del nivel cuando se pierde.
+ Contador de Vidas.
  Contador de puntos.
  Niveles con aumento de dificultad.
