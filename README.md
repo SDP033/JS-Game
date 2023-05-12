@@ -9,7 +9,7 @@ No es necesaria ninguna instalación adicional. Solo necesitas descargar o clona
 
 * Uso
 
-Abre el archivo main.html en tu navegador, donde podrás leer las instrucciones del juego y selecciona la dificultad que desees. Puedes mover la paleta a la izquierda y a la derecha usando las teclas de flecha izquierda y derecha del teclado.
+Abre el archivo main.html en tu navegador, donde podrás leer las instrucciones del juego y selecciona la dificultad que desees. Puedes mover la paleta a la izquierda y a la derecha usando las teclas de flecha izquierda y derecha del teclado. Además de la opción de cambiar el fondo de color pulsando la barra espaciadora.
 
 * Características
 
