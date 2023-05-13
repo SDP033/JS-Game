@@ -92,7 +92,7 @@ function ladrillo() {           // función para pintar los ladrillos
             contexto.beginPath();
             contexto.lineWidth = 5;
             contexto.strokeStyle = "#212121";
-            contexto.fillStyle = "yellow";
+            contexto.fillStyle = "	#99CCFF";
             contexto.rect(brickx, bricky, brickw, brickh);
             contexto.stroke();
             contexto.fill();
@@ -206,7 +206,7 @@ function pinta(){
                 if(y + movy > canvas.height - radio){   
                     vidas--;
                     if(vidas < 1) {                   
-                alert("HAS PERDIDO" + "Tu puntiacion ha sido: " + marcador);
+                alert("HAS PERDIDO " + "Tu puntiacion ha sido: " + marcador);
                 }else{ 
                     x = canvas.width / 2; 
                     y = canvas.height - 50;

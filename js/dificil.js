@@ -92,7 +92,7 @@ function ladrillo() {           // función para pintar los ladrillos
             contexto.beginPath();
             contexto.lineWidth = 5;
             contexto.strokeStyle = "#212121";
-            contexto.fillStyle = "yellow";
+            contexto.fillStyle = "#FFCCCC";
             contexto.rect(brickx, bricky, brickw, brickh);
             contexto.stroke();
             contexto.fill();
